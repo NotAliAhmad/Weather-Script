@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	getData()
 	getWeather()
 }
 
@@ -21,6 +20,7 @@ objective:
 write a go program that takes your current IP, return location, weather, forcast, etc
 
 */
+
 
 var apikey string = "x"
 
@@ -41,7 +41,7 @@ type myinfo struct {
 	Query       string  `json:"query"`
 }
 
-func getData() {
+func getData() string{
 	res, err := http.Get("http://ip-api.com/json/")
 	if err != nil {
 		fmt.Println(err)
@@ -60,6 +60,8 @@ func getData() {
 
 	fmt.Println("Your public IP Address is",Query)
 	fmt.Println("You live in",info.RegionName)
+
+	return info.RegionName
 }
 
 func getWeather() {
@@ -67,7 +69,7 @@ func getWeather() {
 	if err != nil{
 		fmt.Printf("Something went wrong when trying to get the current: %v",err)
 	}
-	err = w.CurrentByName("New York")
+	err = w.CurrentByName(getData())
 	if err != nil{
 		fmt.Printf("Unable to get the weather due to: %v",err)
 
